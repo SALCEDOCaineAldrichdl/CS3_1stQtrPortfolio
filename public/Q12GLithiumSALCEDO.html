@@ -13,14 +13,14 @@
   <label>Service Charge (%):</label>
   <input id="serviceCharge" value="0" > <br> <br>
 
-  <button onclick="totalMeal()">Complete</button>
+  <button onclick="TotalMeal()">Complete</button>
 
   <p>Total Cost:
             <span id="result" >  </span>
         <p>
 </body>
   <script>
-    function totalMeal() {
+    function TotalMeal() {
 
       let mealPrice = parseFloat(document.getElementById("mealPrice").value);
       let tip = parseFloat(document.getElementById("tip").value);
