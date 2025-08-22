@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Guessing Game</title>
+</head>
+<body>
+  <h2> Q1 3rd Graded Exercise submitted by SALCEDO of 9 - Lithium </h2>
+  <h1>Guessing GAME!!!!</h1>
+  <label>Number:</label>
+  <input type ="theNumber" id = "inputGuess" min = "1" max = "100"> <br>
+
+
+  <button onclick="checkit()"> Check my Guess </button>
+
+  <p>Result:
+            <span id="result" >  </span>
+        <p>
+
+  <script>
+
+    var dNumber = Math.floor(Math.random() * 100) + 1;
+
+    function checkit() {
+
+        var guess = parseInt(document.getElementById('inputGuess').value)
+      var result = document.getElementById('result');
+      
+      if (isNaN(guess) || guess < 1 || guess > 100 ) {
+        result.textContent = "Please Enter a number from 1 to 100";
+      } else if (guess == dNumber) {
+        result.textContent = "WHOA! You got it right!";
+      } else if (guess < dNumber) {
+        result.textContent = "OOPS.. Too low..";
+      } else if (guess > dNumber) {
+        result.textContent = "Man... That's too high!";
+      }
+
+    }
+  </script>
+  </body>
+</html>
