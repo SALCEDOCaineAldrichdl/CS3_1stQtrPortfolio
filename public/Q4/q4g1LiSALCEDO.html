@@ -104,7 +104,7 @@
 
     select option { background: var(--card); }
 
-    /* Star Rating */
+    
     .stars {
       display: flex;
       gap: 6px;
@@ -122,7 +122,7 @@
     .star.active { color: var(--star-on); }
     .star:hover { transform: scale(1.15); }
 
-    /* Button */
+    
     .btn-add {
       width: 100%;
       background: var(--btn);
@@ -142,7 +142,7 @@
     .btn-add:hover { opacity: 0.88; }
     .btn-add:active { transform: scale(0.98); }
 
-    /* Movie List */
+   
     .list-section h2 {
       font-family: 'Playfair Display', serif;
       font-size: 1.4rem;
@@ -203,8 +203,8 @@
       padding: 1.5rem 0;
     }
 
-    /* Toast */
-    .toast {
+  
+    .toAst{
       position: fixed;
       bottom: 2rem;
       left: 50%;
@@ -220,7 +220,7 @@
       pointer-events: none;
       z-index: 999;
     }
-    .toast.show {
+    .toAst.show {
       transform: translateX(-50%) translateY(0);
       opacity: 1;
     }
@@ -321,16 +321,16 @@
         return;
       }
 
-      // Load existing
+      
       let movies = JSON.parse(localStorage.getItem('movies') || '[]');
 
-      // Add new entry
+      
       movies.push({ title, year, genre, rating: String(rating) });
 
-      // Save as stringified JSON object
+      
       localStorage.setItem('movies', JSON.stringify(movies));
 
-      // Reset form
+      
       document.getElementById('title').value = '';
       document.getElementById('year').value  = '';
       document.getElementById('genre').selectedIndex = 0;
@@ -377,7 +377,7 @@
       setTimeout(() => t.classList.remove('show'), 2500);
     }
 
-    // Initial render
+    
     renderList();
   </script>
 </body>
