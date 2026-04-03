@@ -57,31 +57,31 @@
       <tr>
         <td> 1 </td> 
         <td> CSS line 31 </td> 
-        <td> <code>display: block</code> on <code>nav a</code> makes each link a full-width block, stacking them vertically instead of appearing on one line.</td>
-        <td> Changed to <code>display: inline-block</code> so all nav links sit on a single horizontal line.</td>
+        <td> display: block on nav a makes each link a full-width block making them stack vertically instead of appearing on one line.</td>
+        <td> Changed to display: inline-block so all nav links sit on a single horizontal line.</td>
       </tr>
       <tr>
         <td> 2 </td> 
         <td> CSS line 25 </td> 
-        <td> <code>nav</code> was missing <code>position: fixed</code>. The requirement states the nav must stay at the top and not scroll with the content.</td>
-        <td> Added <code>position: fixed; top: 0; z-index: 1000;</code> to the <code>nav</code> rule.</td>
+        <td> nav was missing ( position: fixed ). The requirement states the nav must stay at the top and not scroll with the content.</td>
+        <td> Added position: fixed; top: 0; z-index: 1000; to the nav rule.</td>
       </tr>
       <tr>
         <td> 3 </td> 
         <td> CSS line 38 </td> 
-        <td> Selector written as <code>nav a :hover</code> (space before :hover) makes it a descendant selector targeting child elements of <code>a</code>, so the hover on the link itself never triggers.</td>
-        <td> Removed the space: corrected to <code>nav a:hover</code>.</td>
+        <td> Selector written as nav a :hover (space before :hover) makes it a descendant selector targeting child elements of a, so the hover on the link itself never triggers.</td>
+        <td> Removed the space: corrected to nav a:hover.</td>
       </tr>
       <tr>
         <td> 4 </td> 
         <td> CSS line 50 </td> 
-        <td> <code>.point</code> was missing <code>position: absolute</code>. Without it, the <code>left</code> and <code>bottom</code> CSS properties set by JavaScript have no effect, so the red dot always renders in the document flow instead of at the correct coordinate.</td>
-        <td> Added <code>position: absolute;</code> to the <code>.point</code> rule.</td>
+        <td> .point was missing position: absolute. Without it, the leftand bottom CSS properties set by JavaScript have no effect, so the red dot always renders in the document flow instead of at the correct coordinate.</td>
+        <td> Added position: absolute; to the.point rule.</td>
       </tr>
       <tr>
         <td> 5 </td> 
         <td> JS line 1 </td> 
-        <td> function plotPoint() declared with no parameters, but the HTML button calls it with 4 arguments: <code>plotPoint(Number(x0.value), Number(y0.value), Number(x.value), Number(y.value))</code>. Inside the function, <code>x0, y0, x, y</code> were therefore undefined.</td>
+        <td> function plotPoint() declared with no parameters, but the HTML button calls it with 4 arguments: plotPoint(Number(x0.value), Number(y0.value), Number(x.value), Number(y.value)). Inside the function, x0, y0, x, y were therefore undefined.</td>
         <td> Added the four parameters: function plotPoint(x0, y0, x, y).</td>
       </tr>
       <tr>
