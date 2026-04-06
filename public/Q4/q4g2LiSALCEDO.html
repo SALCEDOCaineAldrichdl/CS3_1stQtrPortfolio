@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add / Update a Movie Rating</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0e0e12;
+      --card: #16161d;
+      --border: #2a2a38;
+      --accent: #e8c97e;
+      --accent2: #c97e7e;
+      --text: #e8e8f0;
+      --muted: #6e6e88;
+      --star-off: #2e2e40;
+      --star-on: #e8c97e;
+      --btn: #e8c97e;
+      --btn-text: #0e0e12;
+      --delete-btn: #c97e7e;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      padding: 2rem 1rem 4rem;
+    }
+
+    h1.page-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      color: var(--accent);
+      text-align: center;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.25rem;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+    }
+
+    .container {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .card h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      padding: 0.6rem 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--accent);
+    }
+
+    select option { background: var(--card); }
+
+    .stars {
+      display: flex;
+      gap: 6px;
+      margin-top: 0.3rem;
+    }
+
+    .star {
+      font-size: 1.6rem;
+      cursor: pointer;
+      color: var(--star-off);
+      transition: color 0.15s, transform 0.1s;
+      user-select: none;
+    }
+
+    .star.active { color: var(--star-on); }
+    .star:hover { transform: scale(1.15); }
+
+    .btn-add {
+      width: 100%;
+      background: var(--btn);
+      color: var(--btn-text);
+      border: none;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      padding: 0.75rem;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+
+    .btn-add:hover { opacity: 0.88; }
+    .btn-add:active { transform: scale(0.98); }
+
+    .list-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--accent);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .movie-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .movie-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .movie-title-text {
+      font-weight: 500;
+      font-size: 0.95rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .movie-meta {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .movie-right {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-shrink: 0;
+    }
+
+    .movie-stars {
+      color: var(--star-on);
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+
+    
+    .btn-delete {
+      background: transparent;
+      color: var(--delete-btn);
+      border: 1px solid var(--delete-btn);
+      border-radius: 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 0.3rem 0.65rem;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .btn-delete:hover {
+      background: var(--delete-btn);
+      color: #fff;
+    }
+
+    .btn-delete:active { transform: scale(0.96); }
+
+    .empty-msg {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.88rem;
+      padding: 1.5rem 0;
+    }
+
+    
+    .update-notice {
+      background: rgba(232, 201, 126, 0.12);
+      border: 1px solid rgba(232, 201, 126, 0.35);
+      border-radius: 8px;
+      color: var(--accent);
+      font-size: 0.82rem;
+      padding: 0.55rem 0.9rem;
+      margin-bottom: 1.25rem;
+      text-align: center;
+      letter-spacing: 0.03em;
+      display: none;
+    }
+
+    .update-notice.show { display: block; }
+
+   
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--accent);
+      color: var(--btn-text);
+      border-radius: 8px;
+      padding: 0.6rem 1.4rem;
+      font-size: 0.88rem;
+      font-weight: 500;
+      opacity: 0;
+      transition: transform 0.3s, opacity 0.3s;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1 class="page-title">Movie Vault</h1>
+    <p class="subtitle">Your personal cinema log</p>
+
+    
+    <div class="card">
+      <h2>Add / Update a Movie Rating</h2>
+
+      <div class="update-notice" id="updateNotice">
+        ★ A movie with this title already exists — submitting will average the rating.
+      </div>
+
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" id="title" placeholder="e.g. Interstellar" oninput="checkDuplicate()" />
+      </div>
+
+      <div class="form-group">
+        <label for="year">Year</label>
+        <input type="number" id="year" placeholder="e.g. 2014" min="1888" max="2099" />
+      </div>
+
+      <div class="form-group">
+        <label for="genre">Genre</label>
+        <select id="genre">
+          <option value="Action">Action</option>
+          <option value="Adventure">Adventure</option>
+          <option value="Animation">Animation</option>
+          <option value="Comedy">Comedy</option>
+          <option value="Crime">Crime</option>
+          <option value="Documentary">Documentary</option>
+          <option value="Drama">Drama</option>
+          <option value="Fantasy">Fantasy</option>
+          <option value="Horror">Horror</option>
+          <option value="Mystery">Mystery</option>
+          <option value="Romance">Romance</option>
+          <option value="Sci-Fi">Sci-Fi</option>
+          <option value="Thriller">Thriller</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Rating</label>
+        <div class="stars" id="stars">
+          <span class="star" data-value="1">★</span>
+          <span class="star" data-value="2">★</span>
+          <span class="star" data-value="3">★</span>
+          <span class="star" data-value="4">★</span>
+          <span class="star" data-value="5">★</span>
+        </div>
+      </div>
+
+      <button class="btn-add" onclick="addMovie()">Add Movie</button>
+    </div>
+
+   
+    <div class="card list-section">
+      <h2>Movie List</h2>
+      <div id="movieList">
+        <p class="empty-msg">No movies yet — add your first one above!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    let selectedRating = 0;
+
+    // stars
+    const stars = document.querySelectorAll('.star');
+    stars.forEach(star => {
+      star.addEventListener('click', () => {
+        selectedRating = parseInt(star.dataset.value);
+        updateStars(selectedRating);
+      });
+      star.addEventListener('mouseover', () => updateStars(parseInt(star.dataset.value)));
+      star.addEventListener('mouseout', () => updateStars(selectedRating));
+    });
+
+    function updateStars(val) {
+      stars.forEach(s => {
+        s.classList.toggle('active', parseInt(s.dataset.value) <= val);
+      });
+    }
+
+    // check dupes
+    function checkDuplicate() {
+      const title = document.getElementById('title').value.trim().toLowerCase();
+      const movies = JSON.parse(localStorage.getItem('movies') || '[]');
+      const exists = movies.some(m => m.title.toLowerCase() === title);
+      const notice = document.getElementById('updateNotice');
+      notice.classList.toggle('show', exists && title !== '');
+    }
+
+    function addMovie() {
+      const title  = document.getElementById('title').value.trim();
+      const year   = document.getElementById('year').value.trim();
+      const genre  = document.getElementById('genre').value;
+      const rating = selectedRating;
+
+      if (!title || !year || !rating) {
+        showToast('Please fill in all fields & select a rating.', true);
+        return;
+      }
+
+      let movies = JSON.parse(localStorage.getItem('movies') || '[]');
+
+      // update
+      const existingIndex = movies.findIndex(
+        m => m.title.toLowerCase() === title.toLowerCase()
+      );
+
+      if (existingIndex !== -1) {
+        // average
+        const oldRating = parseFloat(movies[existingIndex].rating);
+        const newAvg = ((oldRating + rating) / 2).toFixed(1);
+        movies[existingIndex].rating = newAvg;
+        movies[existingIndex].year  = year;
+        movies[existingIndex].genre = genre;
+        showToast(`"${title}" updated! New avg rating: ${newAvg} ★`);
+      } else {
+        
+        movies.push({ title, year, genre, rating: String(rating) });
+        showToast('Movie saved!');
+      }
+
+      localStorage.setItem('movies', JSON.stringify(movies));
+
+      
+      document.getElementById('title').value = '';
+      document.getElementById('year').value  = '';
+      document.getElementById('genre').selectedIndex = 0;
+      selectedRating = 0;
+      updateStars(0);
+      document.getElementById('updateNotice').classList.remove('show');
+
+      renderList();
+    }
+
+   
+    function deleteMovie(index) {
+      const confirmed = confirm('Are you sure you want to delete?');
+      if (!confirmed) return;
+
+      let movies = JSON.parse(localStorage.getItem('movies') || '[]');
+      movies.splice(index, 1);
+      localStorage.setItem('movies', JSON.stringify(movies));
+      renderList();
+      showToast('Movie deleted.');
+    }
+
+    function renderList() {
+      const movies = JSON.parse(localStorage.getItem('movies') || '[]');
+      const list   = document.getElementById('movieList');
+
+      if (movies.length === 0) {
+        list.innerHTML = '<p class="empty-msg">No movies yet — add your first one above!</p>';
+        return;
+      }
+
+      list.innerHTML = movies.map((m, i) => {
+        const ratingNum  = parseFloat(m.rating);
+        const fullStars  = Math.round(ratingNum);
+        const starsHtml  = '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars);
+        return `<div class="movie-item">
+          <div class="movie-info">
+            <div class="movie-title-text">${escHtml(m.title)} (${escHtml(m.year)})</div>
+            <div class="movie-meta">${escHtml(m.genre)} &middot; Rating: ${ratingNum}</div>
+          </div>
+          <div class="movie-right">
+            <span class="movie-stars">${starsHtml}</span>
+            <button class="btn-delete" onclick="deleteMovie(${i})">Delete</button>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function escHtml(str) {
+      return String(str)
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;');
+    }
+
+    function showToast(msg, isError = false) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.style.background = isError ? 'var(--accent2)' : 'var(--accent)';
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2800);
+    }
+
+    renderList();
+  </script>
+</body>
+</html>
