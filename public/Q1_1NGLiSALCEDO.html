@@ -1,11 +1,35 @@
+<html>
 <body>
 <p>
 </p>
+  <h1>Where my snacks at??????????</h1>
+  <label> Enter your age:
+    <input id = "age" />
+
+  </label></br/>
+
+  <label> Enter your Max age:
+    <input id = "maxAge" />
+
+  </label></br/>
+
+  label> Enter number of snacks:
+    <input id = "numPerDay" />
+
+  </label></br/>
+
+  <p>Result:
+    <span id = "totalRequired" ></span> 
+
+  </p>
+  <button onclick = "giveSnacks()">Confirm data</button>
+
 <script>
-let age = getElementById ("age"). value;
-let maxage = window.prompt("You will live until the ripe old age of :", "100");
-let numPerDay = window.prompt("Ilang Snacks everyday", 2);
-let sure = window.confirm("Sure ka?????");
+      function giveSnacks (){
+    let age = document.getElementById ("age"). value;
+    let maxage = document.getElementById("maxAge:"). value;
+    let numPerDay = document.getElementById("numPerDay"). value;
+    let sure = window.confirm("Sure ka?????");
 
 if(sure){
 
@@ -23,5 +47,7 @@ if(sure){
 else{
     window.alert("umulit ka nalang pls")
 }
+      }
 </script>
 </body>
+</html>
